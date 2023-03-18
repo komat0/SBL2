@@ -12,7 +12,7 @@ public class Camera {
         car.height = randomHeight;
         car.weight = doubleLimit;
         car.hasVehicle = Math.random() > 0.2;
-        car.isSpecial = Math.random() < 0.15;
+        car.isSpecial = Math.random() < 0.3;
 
         return car;
     }

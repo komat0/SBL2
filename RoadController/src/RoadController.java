@@ -22,12 +22,14 @@ public class RoadController {
             Car car = Camera.getNextCar();
             System.out.println(car);
 
+            if (car.height > controllerMaxHeight) {
+                blockWay("высота вашего ТС " + car.height + "мм и это превышает высоту пропускного пункта!");
+                continue;
+            }
             //Пропускаем автомобили спецтранспорта бесплатно
-            if (car.isSpecial & car.height < controllerMaxHeight) {
+            else if (car.isSpecial) {
                 openWay();
                 continue;
-            } else {
-                blockWay("высота вашего ТС превышает высоту пропускного пункта!");
             }
 
             //Проверяем высоту и массу автомобиля, вычисляем стоимость проезда
@@ -47,22 +49,18 @@ public class RoadController {
         int carHeight = car.height;
         int price = 0;
 
-        //Грузовой автомобиль
-        if (carHeight > controllerMaxHeight) {
-            blockWay("высота вашего ТС превышает высоту пропускного пункта!");
-            return -1;
-        } else if (carHeight > passengerCarMaxHeight || car.weight > passengerCarMaxWeight) {
+
+            //Грузовой автомобиль
+         if (car.height > passengerCarMaxHeight || car.weight > passengerCarMaxWeight) {
                 price = cargoCarPrice;
-                if (car.hasVehicle) {
-                    price = price + vehicleAdditionalPrice;
-                }
-        }
+         }
             //Легковой автомобиль
             else {
                 price = passengerCarPrice;
-            if (car.hasVehicle) {
-                price = price + vehicleAdditionalPrice;
-            }
+         }
+
+        if (car.hasVehicle) {
+            price = price + vehicleAdditionalPrice;
         }
 
         return price;
